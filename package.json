@@ -19,7 +19,9 @@
     "url": "https://github.com/serhiyvorobyov/intuit-challenge/issues"
   },
   "homepage": "https://github.com/serhiyvorobyov/intuit-challenge#readme",
-  "dependencies": {},
+  "dependencies": {
+    "jsonfile": "^2.4.0"
+  },
   "devDependencies": {
     "chai": "^3.2.0",
     "mocha": "^2.3.1"
