@@ -14,18 +14,24 @@ var jsonfile = require('jsonfile');
 function getItemPath (fileName, itemName) {
 	return getJSONData(fileName)
 		.then( function resolveGetJSONData (data) {
-			if (!data) {
+			console.log('resolvedGetJSONData', data);
+			console.log(!!data);
+			if (!!data) {
+				console.log('Rejecting due to empty data', data);
 				return Promise.reject();
 			}
 
 			return findItem(data, itemName);
 		}, function rejectGetJSONData (err) {
-			return Promise.reject();
+			console.log('rejectedGetJSONData');
+			return Promise.reject(err);
 		})
 		.then( function resolveFindItem (path) {
-			return path;
+			console.log('resolvedFindItem');
+			return Promise.resolve(path);
 		}, function rejectFindItem (err) {
-			return null;
+			console.log('rejectedFindItem');
+			return Promise.resolve(null);
 		});
 } 
 
@@ -39,6 +45,7 @@ function getItemPath (fileName, itemName) {
 function getJSONData (fileName) {
 	return new Promise( function (resolve, reject) {
 		jsonfile.readFile(fileName, function jsonfileCb (err, obj) {
+			console.log(err, obj);
 			if (err) {
 				reject(err);
 			} else {
@@ -59,6 +66,9 @@ function getJSONData (fileName) {
  */
  function findItem (data, itemName) {
  	return new Promise( function (resolve, reject) {
- 		resolve(null);
+ 		console.log(data);
+ 		resolve("Some path");
  	});
  }
+
+ module.exports = getItemPath;
