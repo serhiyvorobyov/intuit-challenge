@@ -28,4 +28,13 @@ describe("Problem 1 Test Cases", function (done) {
 			done();
 		});
 	});
+
+	it("finds item in a basic object with no nesting");
+	it("finds item in a basic array");
+	it("finds item in an object that has an array");
+	it("finds item in an array of basic objects");
+	it("finds item in an object with single nested objects");
+	it("finds item in an object with double nested objects");
+	it("finds item in an array of objects with nested objects and arrays");
+	it("passes the given sample test case");
 });
