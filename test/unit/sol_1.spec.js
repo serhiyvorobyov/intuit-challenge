@@ -44,10 +44,37 @@ describe('Problem 1 Test Cases', function (done) {
 			done();
 		});
 	});
-	it('finds item in an object that has an array');
-	it('finds item in an array of basic objects');
-	it('finds item in an object with single nested objects');
-	it('finds item in an object with double nested objects');
-	it('finds item in an array of objects with nested objects and arrays');
-	it('passes the given sample test case');
+
+	it('finds item in an object that has an array', function (done) {
+		p1('data/obj_w_arr.json', 'serhiy')
+		.then( function (path) {
+			expect(path).to.equal('\\items\\2'); 
+			done();
+			
+		});
+	});
+
+	it('finds item in an array of basic objects', function (done) {
+		p1('data/arr_w_objs.json', 'pablo')
+		.then( function (path) {
+			expect(path).to.equal('\\3\\name');
+			done();
+		})
+	});
+
+	it('finds item in an object with double nested objects', function (done) {
+		p1('data/nested_obj.json', 'peaches')
+		.then( function (path) {
+			expect(path).to.equal('\\food\\fruits\\1');
+			done();
+		})
+	});
+
+	it('passes the given sample test case', function (done) {
+		p1('data/sample.json', 'item2')
+		.then( function (path) {
+			expect(path).to.equal('\\itemList\\items\\1\\id');
+			done();
+		})
+	});
 });

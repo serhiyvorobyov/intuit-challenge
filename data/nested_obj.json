@@ -1,0 +1,13 @@
+{
+	"food": {
+		"veggies": [
+			"potatoes",
+			"carrots"
+		],
+		"fruits": [
+			"blueberries",
+			"peaches",
+			"mangoes"
+		]
+	}
+}

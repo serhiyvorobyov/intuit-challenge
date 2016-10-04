@@ -16,27 +16,22 @@ var itemFound;
  * @returns {string} - The path to itemName or null if it does not exist.
  */
 function getItemPath (fileName, itemName) {
-	currPath = ['\\'];
+	currPath = [''];
 	itemFound = false;
 
 	return getJSONData(fileName)
 		.then( function resolveGetJSONData (data) {
-			console.log('resolvedGetJSONData', data);
 			if (_.isEmpty( data )) {
-				console.log('Rejecting due to empty data', data);
 				return Promise.reject();
 			}
 
 			return findItem(data, itemName);
 		}, function rejectGetJSONData (err) {
-			console.log('rejectedGetJSONData');
 			return Promise.reject(err);
 		})
 		.then( function resolveFindItem (path) {
-			console.log('resolvedFindItem');
 			return Promise.resolve(path);
 		}, function rejectFindItem (err) {
-			console.log('rejectedFindItem');
 			return Promise.resolve(null);
 		});
 } 
@@ -51,7 +46,6 @@ function getItemPath (fileName, itemName) {
 function getJSONData (fileName) {
 	return new Promise( function (resolve, reject) {
 		jsonfile.readFile(fileName, function jsonfileCb (err, obj) {
-			console.log(err, obj);
 			if (err) {
 				reject(err);
 			} else {
@@ -71,15 +65,13 @@ function getJSONData (fileName) {
  * @returns {string} - The path from root to where the item is, or null if not found.
  */
 function findItem (data, itemName) {
- 	console.log('findItem');
  	return new Promise( function (resolve, reject) {
  		traverseJSON( data, itemName );
- 		console.log(currPath, '< currPath');
  		
  		if (currPath.length === 1) {
  			reject(null);
  		} else {
- 			resolve(currPath.join(''));
+ 			resolve(currPath.join('\\'));
  		}
  	});
 }
@@ -92,25 +84,20 @@ function findItem (data, itemName) {
  * @param {string} itemName - The name of the item we are looking for in data. 
  */
 function traverseJSON (data, itemName) {
- 	console.log("traverseJSON", data, itemName);
  	for (var i in data) {
- 		console.log(i, data[i], typeof data[i], data[i] === itemName);
- 		currPath.push(i);
- 		console.log('do I get here?');
-
  		if (itemFound) {
- 			console.log('Breaking out');
  			break;
- 		} else if (!!data[i] && typeof data[i] === 'object') {
- 			console.log('recursive call');
+ 		}
+
+ 		currPath.push(i);
+ 		
+ 		if (!!data[i] && typeof data[i] === 'object') {
  			traverseJSON( data[i], itemName );
  		} else if (data[i] === itemName) {
- 			console.log('item found!');
  			itemFound = true;
  		}
 
  		if (!itemFound) {
- 			console.log('popping from path');
  			currPath.pop();
  		}
 
