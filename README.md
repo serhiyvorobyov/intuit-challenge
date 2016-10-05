@@ -2,9 +2,15 @@
 Coding challenge solutions for Intuit.
 
 ## Installation
-
+1. Visit https://nodejs.org/en/download/ to download NodeJS if you do not have it on your system.
+2. From the root directory run 
+``` javascript
+  npm install
+```
 ## Running Test Cases
-
+``` javascript
+  npm test
+```
 ## Assumptions
 Below are assumptions I made for each problem.
 
