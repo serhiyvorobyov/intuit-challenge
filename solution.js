@@ -3,6 +3,8 @@ var _ = require('lodash');
 
 var currPath;
 var itemFound;
+var foundInsert;
+var insertFileName;
 
 /*
  * Returns the full path for an element if it exists in the
@@ -18,6 +20,8 @@ var itemFound;
 function getItemPath (fileName, itemName) {
 	currPath = [''];
 	itemFound = false;
+	foundInsert = false;
+	insertFileName = '';
 
 	return getJSONData(fileName)
 		.then( function resolveGetJSONData (data) {
@@ -93,6 +97,8 @@ function traverseJSON (data, itemName) {
  		
  		if (!!data[i] && typeof data[i] === 'object') {
  			traverseJSON( data[i], itemName );
+ 		} else if (i === 'serverInsert') {
+ 			insertFound = true;
  		} else if (data[i] === itemName) {
  			itemFound = true;
  		}
@@ -104,4 +110,16 @@ function traverseJSON (data, itemName) {
  	}
 }
 
-module.exports = getItemPath;
+/*
+ * Replaces any occurance of
+ */
+function replaceServerInsert (data, idx, replacementFileName) {
+
+}
+
+
+
+module.exports = {
+	'getItemPath': getItemPath,
+	'replaceServerInsert': replaceServerInsert
+};

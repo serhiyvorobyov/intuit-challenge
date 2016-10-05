@@ -16,6 +16,8 @@ Below are assumptions I made for each problem.
  * only contains an empty array
 
 ### Problem 2 Assumtions
+* The object containing serverInsert does not contain any other elements.
+* The object containing serverInsert is inside an array.
 
 ### Problem 3 Assumptions
 
