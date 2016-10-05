@@ -33,3 +33,10 @@ Below are assumptions I made for each problem.
 * path, element, and id are all valid
 * only the provided json object will be used 
 
+## Usage
+``` javascript
+  var sol = require('solution.js');
+  
+  sol.getItemPath(fileName, itemName); // To get path from root to location of itemName
+  sol.replaceProtectedData(fileName); // To replace protected data
+  sol.getElementValue(path, element, id); // To get the value of an element at a specific path location
