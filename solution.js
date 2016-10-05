@@ -1,8 +1,6 @@
 var jsonfile = require('jsonfile');
 var _ = require('lodash');
 
-var replacementValues = ['serverInsert'];
-
 var currPath;
 var itemFound;
 var insertFound;
@@ -20,10 +18,7 @@ var insertFileName;
  * @returns {string} - The path to itemName or null if it does not exist.
  */
 function getItemPath (fileName, itemName) {
-	currPath = [''];
-	itemFound = false;
-	insertFound = false;
-	insertFileName = '';
+	setup();
 
 	return getJSONData(fileName)
 		.then( function resolveGetJSONData (data) {
@@ -41,6 +36,16 @@ function getItemPath (fileName, itemName) {
 			return Promise.resolve(null);
 		});
 } 
+
+/*
+ * Clean setup of variables before each execution.
+ */
+function setup () {
+	currPath = [''];
+	itemFound = false;
+	insertFound = false;
+	insertFileName = '';
+}
 
 /*
  * Creates a JSON object from the given filepath.
@@ -97,14 +102,14 @@ function traverseJSON (data, itemName) {
 
  		currPath.push(i);
  		
- 		if (!!data[i] && typeof data[i] === 'object') {
+ 		if (!_.isEmpty(data[i]) && typeof data[i] === 'object') {
  			traverseJSON( data[i], itemName );
 
  			if (insertFound) {
-				replaceSensoredWithReal(data, i, data[i]);
+				replaceSensoredWithReal(data, i, data[i]['serverInsert']);
 				insertFound = false;
  			}
- 		} else if (replacementValues.indexOf(i) >= 0) {
+ 		} else if (i === 'serverInsert') {
  			insertFound = true;
  		} else if (data[i] === itemName) {
  			itemFound = true;
@@ -114,6 +119,8 @@ function traverseJSON (data, itemName) {
  			currPath.pop();
  		}
  	}
+
+ 	return data;
 }
 
 /*
@@ -122,7 +129,12 @@ function traverseJSON (data, itemName) {
  * @param {string} fileName - The name of the file to scan and replace any sensitive data found.
  */
 function replaceProtectedData (fileName) {
+	setup();
 
+	return getJSONData(fileName)
+		.then( function (data) {
+			return Promise.resolve(traverseJSON(data));
+		});
 }
 
 /*
@@ -134,7 +146,10 @@ function replaceProtectedData (fileName) {
  * @param {string} sensoredDataFileName - The name of the file that contains the sensored data.
  */
 function replaceSensoredWithReal (data, idx, sensoredDataFileName) {
+	var pathToData = `data/p2_data/protected/${sensoredDataFileName}.json`;
 
+	var protectedData = jsonfile.readFileSync(pathToData);
+	data[idx] = protectedData;
 }
 
 
