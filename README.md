@@ -3,7 +3,11 @@ Coding challenge solutions for Intuit.
 
 ## Installation
 1. Visit https://nodejs.org/en/download/ to download NodeJS if you do not have it on your system.
-2. From the root directory run 
+2. Clone the repo
+``` javascript
+  git clone https://github.com/serhiyvorobyov/intuit-challenge.git
+ ```
+3. From the root directory run 
 ``` javascript
   npm install
 ```
