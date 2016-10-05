@@ -1,9 +1,11 @@
 var jsonfile = require('jsonfile');
 var _ = require('lodash');
 
+var replacementValues = ['serverInsert'];
+
 var currPath;
 var itemFound;
-var foundInsert;
+var insertFound;
 var insertFileName;
 
 /*
@@ -20,7 +22,7 @@ var insertFileName;
 function getItemPath (fileName, itemName) {
 	currPath = [''];
 	itemFound = false;
-	foundInsert = false;
+	insertFound = false;
 	insertFileName = '';
 
 	return getJSONData(fileName)
@@ -97,7 +99,12 @@ function traverseJSON (data, itemName) {
  		
  		if (!!data[i] && typeof data[i] === 'object') {
  			traverseJSON( data[i], itemName );
- 		} else if (i === 'serverInsert') {
+
+ 			if (insertFound) {
+				replaceSensoredWithReal(data, i, data[i]);
+				insertFound = false;
+ 			}
+ 		} else if (replacementValues.indexOf(i) >= 0) {
  			insertFound = true;
  		} else if (data[i] === itemName) {
  			itemFound = true;
@@ -106,14 +113,27 @@ function traverseJSON (data, itemName) {
  		if (!itemFound) {
  			currPath.pop();
  		}
-
  	}
 }
 
 /*
- * Replaces any occurance of
+ * Replaces any occurance of items found in the replacementValues array with the actual data.
+ *
+ * @param {string} fileName - The name of the file to scan and replace any sensitive data found.
  */
-function replaceServerInsert (data, idx, replacementFileName) {
+function replaceProtectedData (fileName) {
+
+}
+
+/*
+ * Gets the additional file with sensored data and replaces the requested location
+ * with the real data.
+ *
+ * @param {Array} data - The array in which to replace the data.
+ * @param {int} idx - The array index at which to replace the data.
+ * @param {string} sensoredDataFileName - The name of the file that contains the sensored data.
+ */
+function replaceSensoredWithReal (data, idx, sensoredDataFileName) {
 
 }
 
@@ -121,5 +141,5 @@ function replaceServerInsert (data, idx, replacementFileName) {
 
 module.exports = {
 	'getItemPath': getItemPath,
-	'replaceServerInsert': replaceServerInsert
+	'replaceProtectedData': replaceProtectedData
 };
