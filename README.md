@@ -20,5 +20,6 @@ Below are assumptions I made for each problem.
 * The object containing serverInsert is inside an array.
 
 ### Problem 3 Assumptions
-
+* path, element, and id are all valid
+* only the provided json object will be used 
 

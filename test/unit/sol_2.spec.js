@@ -1,9 +1,6 @@
 /* NPM Modules */
 var jsonfile = require('jsonfile');
-
-var chai = require('chai');
-var expect = chai.expect;
-chai.config.includeStack = true;
+var expect = require('chai').expect;
 
 /* Program Modules */
 var sol = require('../../solution.js');
