@@ -152,9 +152,27 @@ function replaceSensoredWithReal (data, idx, sensoredDataFileName) {
 	data[idx] = protectedData;
 }
 
+/*
+ * Returns the value of the element from the given JSON object.
+ *
+ * @param {string} path - Path to element location
+ * @param {string} element - Name of 
+ */
+function getElementValue (path, element, id) {
+	var pathArr = path.split('.');
+	var data = jsonfile.readFileSync('data/p3_data/main.json');
+
+	for (var i=0; i < pathArr.length; i++) {
+		data = data[pathArr[i]];
+	}
+	
+	return _.find(data, {"id": id})[element];
+}
+
 
 
 module.exports = {
 	'getItemPath': getItemPath,
-	'replaceProtectedData': replaceProtectedData
+	'replaceProtectedData': replaceProtectedData,
+	'getElementValue': getElementValue
 };
